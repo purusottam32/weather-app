@@ -3,6 +3,7 @@
    const clear="/img/clear.png"
     const mist="/img/mist.png"
     const rain="/img/rain.png"
+    const moon="/img/moon.png"
 
  let imgSrc= document.getElementById("imgsrc");
  let locations = document.getElementById("location");
@@ -40,15 +41,23 @@ document.addEventListener("DOMContentLoaded", async function () {
                 console.log("Sunrise:", new Date(data.sys.sunrise * 1000).toLocaleTimeString());
                 st.innerText=new Date(data.sys.sunset * 1000).toLocaleTimeString();
                 console.log("Sunset:", new Date(data.sys.sunset * 1000).toLocaleTimeString());
-                
-                // Display the weather data on the page
-                const weatherData = {
-                    weather: [{ icon: "02n" }] // Icon code from OpenWeatherMap API
-                  };
+                const thistime = new Date().getTime() / 1000; // Convert to seconds
+                const sunriseTime = data.sys.sunrise;
+                const sunsetTime = data.sys.sunset;
             
-                    const iconCode = weatherData.weather[0].icon;
-                    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`; // OpenWeatherMap icon URL
-                    imgSrc.src = iconUrl;
+                // Determine if it's day or night
+                if (currentTime >= sunriseTime && currentTime < sunsetTime) {
+                    imgSrc.src = clear; // Daytime image
+                } else {
+                    imgSrc.src = moon; // Nighttime image
+                }
+                // const weatherData = {
+                //     weather: [{ icon: "02n" }] // Icon code from OpenWeatherMap API
+                //   };
+            
+                //     const iconCode = weatherData.weather[0].icon;
+                //     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`; // OpenWeatherMap icon URL
+                //     imgSrc.src = iconUrl;
                   
                
             } catch (error) {
